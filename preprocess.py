@@ -92,20 +92,11 @@ for region in regions:
         if len(grid.spatial_attr) > 0:
             count+=1
         total+=1
-        # print(grid.spatial_attr)
+        print(grid.spatial_attr)
+    print("--------------------------------------\n\n")
 
 print(count, total)
 print(count/total)
-
-x_values = range(len(regions[0].grids))
-
-for row in regions[0].grids:
-    entry = grid.spatial_attr
-    keys = list(entry.keys())
-    values = list(entry.values())
-    plt.scatter(keys, values, label=str(entry))
-
-plt.show()
 
 
     
