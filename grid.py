@@ -2,7 +2,8 @@ import utils
 from collections import defaultdict
 
 class Grid:
-    def __init__(self, height, width, start_long, start_lat):
+    def __init__(self, id,height, width, start_long, start_lat):
+        self.id = id
         self.start_long = start_long
         self.start_lat = start_lat
         self.end_long = start_long + utils.kmToDegree(height)

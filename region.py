@@ -13,11 +13,13 @@ class Region:
 
         self.grids = []
         current_long = self.start_long
-        while current_long < self.end_long:
+        count = 0
+        while current_long <= self.end_long:
             current_lat = self.start_lat
-            while current_lat < self.end_lat:
-                self.grids.append(Grid(GRID_SIZE, GRID_SIZE, current_long, current_lat))
+            while current_lat <= self.end_lat:
+                self.grids.append(Grid(count,GRID_SIZE, GRID_SIZE, current_long, current_lat))
                 current_lat += utils.kmToDegree(GRID_SIZE)
+                count += 1
             current_long += utils.kmToDegree(GRID_SIZE)
 
     def __str__(self):
