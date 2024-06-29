@@ -40,29 +40,39 @@ def getRegionAndGridId(lat, long, max_lat,  min_lat, min_long, region_height, re
 
     return {"region_id": region_id, "grid_id": grid_id}
 
-def addNoise(regions, shift, noise):
+def get_category_set(category_data):
+    categories = set()
+    for attr, val in category_data.items():
+        categories.add(val)
+
+    return categories
+ 
+def addNoise(regions, shift, noise, categories):
+
     for region in regions:
         for grid in region.grids:
-            cat_count = len(grid.spatial_attr)
-            rand_noise = random.randint(int(cat_count*noise), int(cat_count*noise)+random.randint(0,5))
-            
-            if random.randint(0,1) == 1:
-                for i in range(rand_noise):
-                    key = random.choice(list(grid.spatial_attr.keys()))
-                    grid.spatial_attr[key] += random.uniform(0, int(shift*grid.spatial_attr[key]))
-            else:
-                for i in range(rand_noise):
-                    key = random.choice(list(grid.spatial_attr.keys()))
-                    if grid.spatial_attr[key] - random.uniform(0, int(shift*grid.spatial_attr[key])) > 0:
-                        grid.spatial_attr[key] -= random.uniform(0, int(shift*grid.spatial_attr[key]))
-                        
-            for key in grid.spatial_attr:
 
-                rand_offset = random.uniform(0, int(shift*grid.spatial_attr[key]))
-                if random.randint(0,1) == 1:
-                    grid.spatial_attr[key] += rand_offset
-                elif grid.spatial_attr[key] - rand_offset > 0:
-                    grid.spatial_attr[key] -= rand_offset
+            delta_noise = int(noise * len(grid.spatial_attr))
+            update_count = random.randint(int(delta_noise/2), delta_noise)
+
+            i = 0
+            while (i < update_count):
+                remove_random_key = random.choice(list(grid.spatial_attr.keys()))
+                random_category = random.choice(list(categories))
+                grid.spatial_attr[random_category] = grid.spatial_attr.pop(remove_random_key)
+                i += 1
+
+                if random.randint(0, 10) > 4:
+                    # push a random but not the removed key
+                    random_category = random.choice(list(categories))
+                    grid.spatial_attr[random_category] = 3
+                    
+
+
+
+                
+
+            
     
  
                 

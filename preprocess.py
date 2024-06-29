@@ -72,7 +72,7 @@ while current_long <= max_longitude:
 
 with open('./data/foursquare_taxonomy.json', 'r') as file:
     category_data = json.load(file)
-    
+
 
 lineCount = 0
 for line in lines:
@@ -92,6 +92,7 @@ for line in lines:
 count = 0 # grids at least having one POI
 total = 0 
 for region in regions:
+    # print("region ", region.id)
     for grid in region.grids:
 
         # creating plus-minus sample regions
@@ -102,21 +103,59 @@ for region in regions:
         
 
         if len(grid.spatial_attr) > 0:
-            for key, value in grid.spatial_attr.items():
-                # printing POIs frequency in each grid
-                print(f"{key}: {value}")
-            print("===========================================")
+            # print("grid ", grid.id)
+            # for key, value in grid.spatial_attr.items():
+            #     # printing POIs frequency in each grid
+            #     print(f"{key}: {value}")
+            # print("===========================================")
+            # for key, value in regions_plus[region.id].grids[grid.id].spatial_attr.items():
+            #     # printing POIs frequency in each grid
+            #     print(f"{key}: {value}")
+            # print("===========================================")
+            # for key, value in regions_minus[region.id].grids[grid.id].spatial_attr.items():
+            #     # printing POIs frequency in each grid
+            #     print(f"{key}: {value}")
+            # print("===========================================\n\n")
                 
             count+=1
         total+=1
         # #print (grid.spatial_attr)
     # #print ("--------------------------------------\n\n")
+    print("###############################\n\n\n")
 print (count, total, len(regions))
 
+categories = utils.get_category_set(category_data)
+#print(categories)
 
-utils.addNoise(regions_plus,0.1,0.2)
-utils.addNoise(regions_minus,0.6,.8)
+utils.addNoise(regions_plus,0.8,0.2, categories)
+utils.addNoise(regions_minus,5,5, categories)
 #print (count/total)
+
+
+
+
+for region in regions:
+    print("region ", region.id)
+    for grid in region.grids:
+
+       
+        if len(grid.spatial_attr) > 0:
+            print("grid ", grid.id)
+            for key, value in grid.spatial_attr.items():
+                # printing POIs frequency in each grid
+                print(f"{key}: {value}")
+            print("===========================================")
+            for key, value in regions_plus[region.id].grids[grid.id].spatial_attr.items():
+                # printing POIs frequency in each grid
+                print(f"{key}: {value}")
+            print("===========================================")
+            for key, value in regions_minus[region.id].grids[grid.id].spatial_attr.items():
+                # printing POIs frequency in each grid
+                print(f"{key}: {value}")
+            print("===========================================\n\n")
+                
+    # #print ("--------------------------------------\n\n")
+    print("###############################\n\n\n")
 
 
     
